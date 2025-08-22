@@ -53,9 +53,6 @@ const Login: React.FC = () => {
             <TextField label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} fullWidth required />
             <Button type="submit" variant="contained" size="large">Sign In</Button>
           </Box>
-          <Typography variant="caption" sx={{ display: 'block', mt: 2, color: 'text.disabled', textAlign: 'center' }}>
-            Hint password: M22m$LOVINGGOD
-          </Typography>
         </CardContent>
       </Card>
     </Box>

@@ -6,6 +6,7 @@ import AccountProviderWrapper from './components/AccountProviderWrapper';
 import Transfer from './components/Transfer';
 import Cards from './components/Cards';
 import ResolveDebt from './components/ResolveDebt';
+import InactivityWarning from './components/InactivityWarning';
 import { Box } from '@mui/material';
 import { theme } from './theme';
 
@@ -44,7 +45,9 @@ export default App;
 
 function AppRoutes() {
   const location = useLocation();
+  const { showInactivityWarning, dismissInactivityWarning } = useAuth();
   const hideNav = location.pathname === '/login';
+  
   return (
     <>
       <Routes>
@@ -56,6 +59,9 @@ function AppRoutes() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {!hideNav && <Navigation />}
+      {showInactivityWarning && (
+        <InactivityWarning onDismiss={dismissInactivityWarning} />
+      )}
     </>
   );
 }
