@@ -19,8 +19,8 @@ const Login: React.FC = () => {
       setError('Incorrect password.');
       return;
     }
-    const dest = location?.state?.from?.pathname || '/';
-    navigate(dest, { replace: true });
+    // Always redirect to homepage after successful login
+    navigate('/', { replace: true });
   };
 
   return (
