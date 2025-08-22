@@ -1,13 +1,30 @@
 import React, { useState } from 'react';
-import { Box, Card, CardContent, Typography, IconButton, Badge } from '@mui/material';
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    IconButton,
+    Badge,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+} from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import CloseIcon from '@mui/icons-material/Close';
 import { useAccounts } from '../../context/AccountContext';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const { username } = useAuth();
+  const navigate = useNavigate();
+  const [showNotificationError, setShowNotificationError] = useState(false);
+
   // Convert currency to formatted string
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -20,6 +37,19 @@ const Dashboard = () => {
 
   const [showSavings, setShowSavings] = useState(false);
   const [showChecking, setShowChecking] = useState(false);
+
+  const handleNotificationClick = () => {
+    setShowNotificationError(true);
+  };
+
+  const closeNotificationError = () => {
+    setShowNotificationError(false);
+  };
+
+  const handleResolveDebt = () => {
+    setShowNotificationError(false);
+    navigate('/resolve-debt');
+  };
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -65,7 +95,7 @@ const Dashboard = () => {
 
         {/* Notification Bell */}
         <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-          <IconButton sx={{ color: 'white' }}>
+          <IconButton sx={{ color: 'white' }} onClick={handleNotificationClick}>
             <Badge badgeContent={3} color="error">
               <NotificationsIcon />
             </Badge>
@@ -224,6 +254,75 @@ const Dashboard = () => {
           </Card>
         </Box>
       </Box>
+
+      {/* Notification Error Modal */}
+      <Dialog
+        open={showNotificationError}
+        onClose={closeNotificationError}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: 3 }
+        }}
+      >
+        <DialogTitle sx={{
+          m: 0,
+          p: 3,
+          pb: 1,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, color: '#e53e3e' }}>
+            Notifications Cannot Be Viewed At This Time
+          </Typography>
+          <IconButton
+            aria-label="close"
+            onClick={closeNotificationError}
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ p: 3, pt: 1 }}>
+          <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
+            We're sorry, but your notifications cannot be viewed at this time.
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+            <strong>Reason:</strong> You have an outstanding debt that must be resolved before accessing notifications.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ p: 3, pt: 1, gap: 1 }}>
+          <Button
+            onClick={closeNotificationError}
+            variant="outlined"
+            sx={{
+              borderColor: '#e53e3e',
+              color: '#e53e3e',
+              '&:hover': {
+                borderColor: '#c53030',
+                bgcolor: 'rgba(229, 62, 62, 0.04)',
+              }
+            }}
+          >
+            I Understand
+          </Button>
+          <Button
+            onClick={handleResolveDebt}
+            variant="contained"
+            sx={{
+              bgcolor: '#e53e3e',
+              '&:hover': {
+                bgcolor: '#c53030',
+              }
+            }}
+          >
+            Resolve
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

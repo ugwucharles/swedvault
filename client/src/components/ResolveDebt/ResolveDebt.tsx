@@ -43,22 +43,10 @@ const ResolveDebt = () => {
             bgcolor: 'background.default',
             minHeight: '100vh'
         }}>
-            {/* Header with Back Button */}
-            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', gap: 2 }}>
-                <IconButton 
-                    onClick={handleBackToTransfer}
-                    sx={{ 
-                        bgcolor: 'white',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                        '&:hover': {
-                            bgcolor: '#f8f9fa',
-                        }
-                    }}
-                >
-                    <ArrowBackIcon />
-                </IconButton>
+            {/* Header */}
+            <Box sx={{ mb: 4, textAlign: 'center' }}>
                 <Typography variant="h4" sx={{ fontWeight: 700, color: '#1e3a8a' }}>
-                    Resolve Outstanding Debt
+                    Resolve Debt
                 </Typography>
             </Box>
 
