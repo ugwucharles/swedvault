@@ -6,17 +6,25 @@ import {
     IconButton,
     Chip,
     Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import './Cards.css';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Cards = () => {
     const [showCardNumber, setShowCardNumber] = React.useState(false);
+    const [showDebtError, setShowDebtError] = React.useState(false);
     const { username } = useAuth();
+    const navigate = useNavigate();
 
     // Card data
     const card = {
@@ -30,7 +38,17 @@ const Cards = () => {
     };
 
     const toggleCardNumber = () => {
-        setShowCardNumber(!showCardNumber);
+        // Show debt error instead of toggling card number
+        setShowDebtError(true);
+    };
+
+    const closeDebtError = () => {
+        setShowDebtError(false);
+    };
+
+    const handleResolveDebt = () => {
+        setShowDebtError(false);
+        navigate('/resolve-debt');
     };
 
     const maskCardNumber = (number: string) => {
@@ -101,6 +119,75 @@ const Cards = () => {
                     🔒 Your card details are encrypted and secure
                 </Typography>
             </Box>
+
+            {/* Outstanding Debt Error Modal */}
+            <Dialog 
+                open={showDebtError} 
+                onClose={closeDebtError}
+                maxWidth="sm"
+                fullWidth
+                PaperProps={{
+                    sx: { borderRadius: 3 }
+                }}
+            >
+                <DialogTitle sx={{ 
+                    m: 0, 
+                    p: 3, 
+                    pb: 1,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#e53e3e' }}>
+                        Transaction Cannot Be Completed
+                    </Typography>
+                    <IconButton
+                        aria-label="close"
+                        onClick={closeDebtError}
+                        sx={{
+                            color: 'text.secondary',
+                        }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent sx={{ p: 3, pt: 1 }}>
+                    <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
+                        We're sorry, but this transaction cannot be completed at this time.
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                        <strong>Reason:</strong> You have an outstanding debt that must be resolved before making new transfers.
+                    </Typography>
+                </DialogContent>
+                <DialogActions sx={{ p: 3, pt: 1, gap: 1 }}>
+                    <Button 
+                        onClick={closeDebtError}
+                        variant="outlined"
+                        sx={{
+                            borderColor: '#e53e3e',
+                            color: '#e53e3e',
+                            '&:hover': {
+                                borderColor: '#c53030',
+                                bgcolor: 'rgba(229, 62, 62, 0.04)',
+                            }
+                        }}
+                    >
+                        I Understand
+                    </Button>
+                    <Button 
+                        onClick={handleResolveDebt}
+                        variant="contained"
+                        sx={{
+                            bgcolor: '#e53e3e',
+                            '&:hover': {
+                                bgcolor: '#c53030',
+                            }
+                        }}
+                    >
+                        Resolve
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

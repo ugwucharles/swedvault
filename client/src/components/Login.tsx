@@ -27,6 +27,20 @@ const Login: React.FC = () => {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
       <Card sx={{ width: '100%', maxWidth: 420, boxShadow: '0 8px 32px rgba(0,0,0,0.08)', borderRadius: 3 }}>
         <CardContent sx={{ p: 4 }}>
+          {/* Logo */}
+          <Box sx={{ textAlign: 'center', mb: 3 }}>
+            <Box
+              component="img"
+              src="/logo.png"
+              alt="Logo"
+              sx={{
+                width: 80,
+                height: 80,
+                mb: 2,
+              }}
+            />
+          </Box>
+          
           <Typography variant="h5" sx={{ fontWeight: 800, mb: 2, textAlign: 'center' }}>Welcome</Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3, textAlign: 'center' }}>
             Sign in to continue

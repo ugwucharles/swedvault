@@ -51,9 +51,41 @@ const Transfer = () => {
     const CORRECT_PIN = '0034';
 
     const handleInputChange = (field: keyof FormData) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        let value = event.target.value;
+        
+        // Apply input restrictions based on field type
+        switch (field) {
+            case 'bankName':
+            case 'recipientName':
+                // Only allow letters, spaces, and common punctuation
+                value = value.replace(/[^a-zA-Z\s\-'\.]/g, '');
+                break;
+            case 'routingNumber':
+            case 'accountNumber':
+                // Only allow numbers
+                value = value.replace(/[^0-9]/g, '');
+                break;
+            case 'amount':
+                // Only allow numbers and decimal point
+                value = value.replace(/[^0-9.]/g, '');
+                // Prevent multiple decimal points
+                const decimalCount = (value.match(/\./g) || []).length;
+                if (decimalCount > 1) {
+                    value = value.replace(/\.+$/, '');
+                }
+                // Limit to 2 decimal places
+                if (value.includes('.')) {
+                    const parts = value.split('.');
+                    if (parts[1] && parts[1].length > 2) {
+                        value = parts[0] + '.' + parts[1].substring(0, 2);
+                    }
+                }
+                break;
+        }
+        
         setFormData({
             ...formData,
-            [field]: event.target.value
+            [field]: value
         });
         if (errors[field]) {
             setErrors({
@@ -68,6 +100,8 @@ const Transfer = () => {
         
         if (!formData.bankName.trim()) {
             newErrors.bankName = 'Bank name is required';
+        } else if (!/^[a-zA-Z\s\-'\.]+$/.test(formData.bankName.trim())) {
+            newErrors.bankName = 'Bank name can only contain letters, spaces, hyphens, apostrophes, and periods';
         }
         
         if (!formData.routingNumber.trim()) {
@@ -78,10 +112,14 @@ const Transfer = () => {
         
         if (!formData.accountNumber.trim()) {
             newErrors.accountNumber = 'Account number is required';
+        } else if (!/^\d+$/.test(formData.accountNumber)) {
+            newErrors.accountNumber = 'Account number can only contain numbers';
         }
         
         if (!formData.recipientName.trim()) {
             newErrors.recipientName = 'Recipient name is required';
+        } else if (!/^[a-zA-Z\s\-'\.]+$/.test(formData.recipientName.trim())) {
+            newErrors.recipientName = 'Recipient name can only contain letters, spaces, hyphens, apostrophes, and periods';
         }
         
         if (!formData.amount.trim()) {
