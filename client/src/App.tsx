@@ -14,6 +14,17 @@ import Dashboard from './components/Dashboard';
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import { AuthProvider, useAuth } from './context/AuthContext';
+
+// Component to scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
  
 
 function RequireAuth({ children }: { children: React.ReactElement }) {
@@ -32,6 +43,7 @@ function App() {
         <AuthProvider>
           <AccountProviderWrapper>
             <Router>
+              <ScrollToTop />
               <AppRoutes />
             </Router>
           </AccountProviderWrapper>

@@ -139,7 +139,7 @@ const Cards = () => {
                     alignItems: 'center'
                 }}>
                     <Typography variant="h6" sx={{ fontWeight: 600, color: '#e53e3e' }}>
-                        Transaction Cannot Be Completed
+                        Card Cannot Be Viewed At This Time
                     </Typography>
                     <IconButton
                         aria-label="close"
@@ -153,10 +153,10 @@ const Cards = () => {
                 </DialogTitle>
                 <DialogContent sx={{ p: 3, pt: 1 }}>
                     <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
-                        We're sorry, but this transaction cannot be completed at this time.
+                        We're sorry, but your card details cannot be viewed at this time.
                     </Typography>
                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                        <strong>Reason:</strong> You have an outstanding debt that must be resolved before making new transfers.
+                        <strong>Reason:</strong> You have an outstanding debt that must be resolved before accessing card information.
                     </Typography>
                 </DialogContent>
                 <DialogActions sx={{ p: 3, pt: 1, gap: 1 }}>
