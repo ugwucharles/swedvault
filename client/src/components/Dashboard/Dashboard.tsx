@@ -168,7 +168,7 @@ const Dashboard = () => {
                   lineHeight: 1.1,
                 }}
               >
-                {showSavings ? formatCurrency(243455.75) : '••••••'}
+                {showSavings ? formatCurrency(120844.89) : '••••••'}
               </Typography>
               <Typography
                 variant="body2"
@@ -238,7 +238,7 @@ const Dashboard = () => {
                   lineHeight: 1.1,
                 }}
               >
-                {showChecking ? formatCurrency(37230.00) : '••••••'}
+                {showChecking ? formatCurrency(2078000.82) : '••••••'}
               </Typography>
               <Typography
                 variant="body2"
